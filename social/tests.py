@@ -27,4 +27,4 @@ class ProfileModelTest(TestCase):
 
 class PostModelTest(TestCase):
     def test_post_setup(self):
-        post = Post.objects.createuser(username="postuser1", password="pass123")
+        user = User.objects.create_user(username="postuser1", password="pass123")

@@ -5,3 +5,6 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
     image = models.ImageField(upload_to="profiles/", blank=True)
+
+class Post(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
