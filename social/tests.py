@@ -26,5 +26,13 @@ class ProfileModelTest(TestCase):
         self.assertTrue(profile.image.name.endswith(".jpg"))
 
 class PostModelTest(TestCase):
-    def test_post_setup(self):
-        user = User.objects.create_user(username="postuser1", password="pass123")
+    def setUp(self):
+        self.user = User.objects.create_user(username="postuser1", password="pass123")
+
+    def test_post_has_content(self):
+        post = Post.objects.create(author=self.user, content="Hello world")
+        self.assertEqual(post.content, "Hello world")
+
+    def test_post_has_timestamp(self):
+        post = Post.objects.create(author=self.user, content="Test")
+        self.assertIsNotNone(post.timestamp)

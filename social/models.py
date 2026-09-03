@@ -7,4 +7,6 @@ class Profile(models.Model):
     image = models.ImageField(upload_to="profiles/", blank=True)
 
 class Post(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+    content = models.CharField(max_length=280)
+    timestamp = models.DateTimeField(auto_now_add=True)
