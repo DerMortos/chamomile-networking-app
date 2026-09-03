@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from.models import Profile
+from .models import Post
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 class ProfileModelTest(TestCase):
@@ -23,3 +24,7 @@ class ProfileModelTest(TestCase):
         fake_image = SimpleUploadedFile("test.jpg", b"fake image content", content_type="image/jpeg")
         profile = Profile.objects.create(user=user, image=fake_image)
         self.assertTrue(profile.image.name.endswith(".jpg"))
+
+class PostModelTest(TestCase):
+    def test_post_setup(self):
+        post = Post.objects.createuser(username="postuser1", password="pass123")
