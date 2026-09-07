@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from.models import Profile
+from .models import Profile
 from .models import Post
+from .models import Comment
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 class ProfileModelTest(TestCase):
@@ -36,3 +37,10 @@ class PostModelTest(TestCase):
     def test_post_has_timestamp(self):
         post = Post.objects.create(author=self.user, content="Test")
         self.assertIsNotNone(post.timestamp)
+    def test_post_links_to_author(self):
+        post = Post.objects.create(author=self.user, content="Test")
+        self.assertEqual(post.author, self.user)
+
+class CommentModelTest(TestCase):
+    def setUp(self):
+        self.user = User.object.create_user(username="commentuser", password="pass123")
