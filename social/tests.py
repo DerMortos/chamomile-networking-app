@@ -37,6 +37,7 @@ class PostModelTest(TestCase):
     def test_post_has_timestamp(self):
         post = Post.objects.create(author=self.user, content="Test")
         self.assertIsNotNone(post.timestamp)
+
     def test_post_links_to_author(self):
         post = Post.objects.create(author=self.user, content="Test")
         self.assertEqual(post.author, self.user)
@@ -45,3 +46,7 @@ class CommentModelTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username="commentuser", password="pass123")
         self.post = Post.objects.create(author=self.user, content="Parent Post")
+
+    def test_comment_has_content(self):
+        comment = Comment.objects.create(post=self.post, author=self.user, content = "Nice post")
+        self.assertEqual(comment.content, "Nice post")
