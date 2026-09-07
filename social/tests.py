@@ -31,15 +31,15 @@ class PostModelTest(TestCase):
         self.user = User.objects.create_user(username="postuser1", password="pass123")
 
     def test_post_has_content(self):
-        post = Post.objects.create(author=self.user, content="Hello world")
+        post = Post.objects.create(author=self.user, content="Test post")
         self.assertEqual(post.content, "Hello world")
 
     def test_post_has_timestamp(self):
-        post = Post.objects.create(author=self.user, content="Test")
+        post = Post.objects.create(author=self.user, content="Test post 2")
         self.assertIsNotNone(post.timestamp)
 
     def test_post_links_to_author(self):
-        post = Post.objects.create(author=self.user, content="Test")
+        post = Post.objects.create(author=self.user, content="Test post 3")
         self.assertEqual(post.author, self.user)
 
 class CommentModelTest(TestCase):
@@ -48,5 +48,17 @@ class CommentModelTest(TestCase):
         self.post = Post.objects.create(author=self.user, content="Parent Post")
 
     def test_comment_has_content(self):
-        comment = Comment.objects.create(post=self.post, author=self.user, content = "Nice post")
-        self.assertEqual(comment.content, "Nice post")
+        comment = Comment.objects.create(post=self.post, author=self.user, content = "Test comment")
+        self.assertEqual(comment.content, "Test comment")
+
+    def test_comment_has_timestamp(self):
+        comment = Comment.objects.create(post=self.post, author=self.user, content="Test comment 2")
+        self.assertIsNotNone(comment.timestamp)
+
+    def test_comment_links_to_author(self):
+        comment=Comment.objects.create(post=self.post, author=self.user, content="Test comment 3")
+        self.assertEqual(comment.author, self.user)
+
+    def test_comment_links_to_post(self):
+        comment=Comment.objects.create(post=self.post, author=self.user, content="Test comment 4")
+        self.assertEqual(comment.post, self.post)

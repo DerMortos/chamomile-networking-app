@@ -15,3 +15,4 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     content = models.CharField(max_length=280)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    timestamp = models.DateTimeField(auto_now_add=True)
