@@ -43,4 +43,5 @@ class PostModelTest(TestCase):
 
 class CommentModelTest(TestCase):
     def setUp(self):
-        self.user = User.object.create_user(username="commentuser", password="pass123")
+        self.user = User.objects.create_user(username="commentuser", password="pass123")
+        self.post = Post.objects.create(author=self.user, content="Parent Post")
