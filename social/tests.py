@@ -62,3 +62,12 @@ class CommentModelTest(TestCase):
     def test_comment_links_to_post(self):
         comment=Comment.objects.create(post=self.post, author=self.user, content="Test comment 4")
         self.assertEqual(comment.post, self.post)
+
+class MessageModelTest(TestCase):
+    def setUp(self):
+        self.sender = User.objects.create_user(username="sender", password="pass123")
+        self.recipient = User.objects.create_user(username="recipient", password="pass123")
+
+    def test_message_has_content(self):
+        msg = Message.objects.create(author=self.sender, recipient=self.recipient, content="Hi")
+        self.assertEqual(msg.content, "Hi")
