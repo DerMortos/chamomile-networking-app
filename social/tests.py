@@ -4,6 +4,7 @@ from .models import Profile
 from .models import Post
 from .models import Comment
 from .models import Message
+from .models import Follow
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 class ProfileModelTest(TestCase):
@@ -89,3 +90,11 @@ class MessageModelTest(TestCase):
     def test_message_to_own_wall(self):
         msg = Message.objects.create(author=self.sender, recipient=self.sender, content="Hello, its me")
         self.assertEqual(msg.author, msg.recipient)
+
+class FollowModelTest(TestCase):
+    def setUp(self):
+        self.follower = User.objects.create_user(username="follower", password="pass123")
+        self.followed = User.objects.create_user(username="followed", password="pass123")
+    def test_follow_has_timestamp(self):
+        follow = Follow.objects.create(follower=self.follower, following=self.followed)
+        self.assertIsNotNone(follow.timestamp)
