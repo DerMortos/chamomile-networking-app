@@ -22,3 +22,4 @@ class Message(models.Model):
     recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="receive_messages")
     content = models.CharField(max_length=280)
     timestamp = models.DateTimeField(auto_now_add=True)
+    is_private = models.BooleanField(default=False)

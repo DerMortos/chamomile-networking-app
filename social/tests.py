@@ -72,3 +72,20 @@ class MessageModelTest(TestCase):
     def test_message_has_content(self):
         msg = Message.objects.create(author=self.sender, recipient=self.recipient, content="Hi")
         self.assertEqual(msg.content, "Hi")
+
+    def test_message_has_timestamp(self):
+        msg = Message.objects.create(author=self.sender, recipient=self.recipient, content="Hey")
+        self.assertIsNotNone(msg.timestamp)
+    def test_message_defaults_to_public(self):
+        msg = Message.objects.create(author=self.sender, recipient=self.recipient, content="Hello, again")
+        self.assertFalse(msg.is_private)
+    def test_message_can_be_set_to_private(self):
+        msg = Message.objects.create(author=self.sender, recipient=self.recipient, content="'sup", is_private=True)
+        self.assertTrue(msg.is_private)
+    def test_message_links_author_and_recipient(self):
+        msg = Message.objects.create(author=self.sender, recipient=self.recipient, content="yo")
+        self.assertEqual(msg.author, self.sender)
+        self.assertEqual(msg.recipient, self.recipient)
+    def test_message_to_own_wall(self):
+        msg = Message.objects.create(author=self.sender, recipient=self.sender, content="Hello, its me")
+        self.assertEqual(msg.author, msg.recipient)
