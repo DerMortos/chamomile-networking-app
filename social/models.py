@@ -16,3 +16,9 @@ class Comment(models.Model):
     content = models.CharField(max_length=280)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     timestamp = models.DateTimeField(auto_now_add=True)
+
+class Message(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_messages")
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="receive_messages")
+    content = models.CharField(max_length=280)
+    timestamp = models.DateTimeField(auto_now_add=True)

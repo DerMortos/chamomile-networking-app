@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from .models import Post
 from .models import Comment
+from .models import Message
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 class ProfileModelTest(TestCase):
