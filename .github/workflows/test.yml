@@ -16,7 +16,7 @@ jobs:
         env:
           POSTGRES_USER: admin
           POSTGRES_PASSWORD: testpass
-          POSTGRESS_DB: : chamomile
+          POSTGRES_DB: chamomile
         ports:
           - 5432:5432
         options: >-
@@ -25,32 +25,32 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-     steps:
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          path: python-version "3.12"
+          python-version: "3.12"
 
       - name: Cache pip dependencies
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('Requrirements.txt' }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
       - name: Install dependencies
-        run: pip install -r requriements.txt
+        run: pip install -r requirements.txt
 
       - name: Run tests
-          env:
-            DB_NAME: Chamomile
-            DB_USER: admin
-            DB_PASSWORD: testpass
-            DB_HOST: localhost
-            DB_PORT: 5432
-            DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-          run: python manage.py test
+        env:
+          DB_NAME: chamomile
+          DB_USER: admin
+          DB_PASSWORD: testpass
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DJANGO_SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: python manage.py test
