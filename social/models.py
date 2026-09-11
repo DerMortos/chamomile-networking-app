@@ -23,3 +23,14 @@ class Message(models.Model):
     content = models.CharField(max_length=280)
     timestamp = models.DateTimeField(auto_now_add=True)
     is_private = models.BooleanField(default=False)
+
+class Follow(models.Model):
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following")
+    following = models.ForeignKey(User, on_delete=models.CASCADE, related_name="followers")
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["follower", "following"], name="unique_follow"),
+            models.CheckConstraint(condition=~models.Q(follower=models.F("following")), name="no_self_follow"),
+        ]

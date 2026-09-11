@@ -1,5 +1,8 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
+from psycopg import IntegrityError
+from django.db.utils import IntegrityError
+
 from .models import Profile
 from .models import Post
 from .models import Comment
@@ -34,7 +37,7 @@ class PostModelTest(TestCase):
 
     def test_post_has_content(self):
         post = Post.objects.create(author=self.user, content="Test post")
-        self.assertEqual(post.content, "Hello world")
+        self.assertEqual(post.content, "Test post")
 
     def test_post_has_timestamp(self):
         post = Post.objects.create(author=self.user, content="Test post 2")
@@ -98,3 +101,16 @@ class FollowModelTest(TestCase):
     def test_follow_has_timestamp(self):
         follow = Follow.objects.create(follower=self.follower, following=self.followed)
         self.assertIsNotNone(follow.timestamp)
+    def test_follow_links_both_users(self):
+        follow = Follow.objects.create(follower=self.follower, following=self.followed)
+        self.assertEqual(follow.follower, self.follower)
+        self.assertEqual(follow.following, self.followed)
+
+    def test_duplicate_following_is_rejected(self):
+        Follow.objects.create(follower=self.follower, following=self.followed)
+        with self.assertRaises(IntegrityError):
+            Follow.objects.create(follower=self.follower, following=self.followed)
+
+    def test_self_follow_is_rejected(self):
+        with self.assertRaises(IntegrityError):
+            Follow.objects.create(follower=self.follower, following=self.follower)
