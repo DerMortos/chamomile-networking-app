@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
+from django.contrib.auth.decorators import login_required
 
 class SignUpView(View):
     def get(self, request):
         return HttpResponse("signup stub")
+@login_required()
 def feed(request):
     return HttpResponse("feed stub")
 
@@ -25,3 +27,4 @@ def edit_profile(request):
 
 def delete_message(request, pk):
     return HttpResponse("delete message stub")
+
